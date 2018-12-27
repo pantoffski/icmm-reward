@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>ICMM 2019: Reward</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Intania Runner">
+        {% if baseUrl %}
+        <base href = "{{ baseUrl }}" />
+        {% endif %}
+        <link href="static/css/bootstrap.min.css" rel="stylesheet">
+        <link href="static/css/form-validation.css" rel="stylesheet">
+        <link href="static/css/icmm-reward.css" rel="stylesheet">
+    </head>
+    <body class="bg-light">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
+        <script src="static/js/popper.min.js"></script>
+        <script src="static/js/bootstrap.min.js"></script>
+        <script src="static/js/holder.min.js"></script>
+        <div class="header">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div clßass="col-md col-centered" style="text-align: center">
+                        <h1>ICMM 2019 - Run 4 Team</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block body %}
+        {% endblock %}
+        <footer class="footer">
+            <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-md col-centered" style="text-align: center">
+                        <p>Powered by Intania Runner</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
