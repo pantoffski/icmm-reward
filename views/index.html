@@ -2,215 +2,37 @@
 {% block body %}
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h2 class="display-6">ICMM Run4Team วิ่งด้วยกัน ไปได้ไกล</h2>
-        <p>มาทำการวิ่งของคุณให้มีความหมายมากขึ้น ไม่ใช่แค่ตัวคุณเอง แต่พาเพื่อนไปด้วยกันมาช่วยเพื่อนของคุณท้าทายตัวเอง ทำให้สิ่งที่เค้าคิดว่าเป็นไปไม่ได้ </p>
+        <h2 class="display-6">ICMM 2019: e-Reward</h2>
+        <p>challenge</p>
         <br>
-        <h2 class="display-6">รายละเอียดการรับสมัคร</h2>
-        <p>1. ผู้มีสิทธิ์เข้าร่วมกิจกรรม จะต้องสมัครงาน ICMM ประเภทบุคคลใน "ระยะมินิมาราธอน (10km)" แล้ว</p>
-        <p>2. หนึ่งทีมจะประกอบไปด้วยสมาชิกทั้งหมด 4 คน โดยต้องมีสมาชิกอย่างน้อย 2 คนขึ้นไป ที่ "ไม่เคย" วิ่งระยะมินิมาราธอน (10km) มาก่อน</p>
-        <p>3. ต้องเริ่มวิ่งและเข้าเส้นชัยพร้อมกันทั้งทีม</p>
-        <p>4. ผู้ร่วมกิจกรรมแบบทีมจะได้รับของที่ระลึกพิเศษเพิ่มเติมจากที่จะได้รับในประเภทบุคคล</p>
-        <p>5. กรุณากรอกชื่อและนามสกุลด้วยภาษาไทยหรืออังกฤษตามที่ได้สมัครงาน ICMM ไว้</p>
-        <p>6. ตรวจสอบรายชื่อทีมและสมาชิกทีมด้วยปุ่ม "ตรวจสอบชื่อ" ก่อนสมัคร</p>
-        <p>7. รับสมัครวันนี้ - 5 ธ.ค.61 หรือครบ 200 ทีม</p>
-        <br>
-        <h5 class="text-bold">ตรวจสอบรายชื่อทีมได้ที่ <a class="btn btn-primary" href="{{ teamListLink }}" role="button">รายชื่อทีม</a></h5>
-        <p >หมายเหตุ: ข้อมูลอาจใช้เวลาในการอัพเดท หากภายใน 1 ชั่วโมง ยังไม่พบข้อมูลทีม ให้ติดต่อทางเพจ ICMM</p>
+        <h2 class="display-6">รายละเอียด</h2>
+        <p>กรอกเลข bib และเลข 4 หลักสุดท้ายของเบอร์โทรศัพท์</p>
     </div>
 </div>
 <div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-md-8 order-md-1">
-            <h1>สร้างทีม</h1>
-        </div>
-    </div>
-    <div class="row justify-content-md-center">
-        <div class="col-md-8 order-md-1">
-            <form action="confirm" method="post">
-                <div class="mb-3">
-                    <h4 for="teamName">ชื่อทีม <span class="text-muted" id="teamStatus"></span></h4>
-                    <input type="text" class="form-control" id="teamName" name="teamName" placeholder="Run 4 Team" required="">
-                    <div class="invalid-feedback">
-                    กรุณากรอกชื่อทีม
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <form id="login-form" action="complete" method="post" role="form" style="display: block;">
+                    <div class="form-group">
+                        <label >ระยะที่สมัคร</label>
+                        <select autofocus class="form-control" id="category">
+                          <option value="5k">Fun Run 5K </option>
+                          <option selected value="10k">Mini Marathon 10K</option>
+                        </select>
+                      </div>
+                    <div class="form-group">
+                        <input type="text" name="bibNumber" id="bibNumber" tabindex="1" class="form-control" pattern="^[0-9]{4}$" minlength=4 maxlength=4 placeholder="เลขบิบ 4 หลัก" required>
                     </div>
-                </div>
-                <!-- RUNNER 1 -->
-                <h4 class="mb-3">นักวิ่งคนที่ 1 <span class="text-muted" id="user1Status"></span></h4>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                    <label for="r1FirsttName">ชื่อ</label>
-                    <input type="text" class="form-control" id="r1FirstName" name="r1FirstName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกชื่อนักวิ่ง
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" tabindex="2" class="form-control" minlength=4 maxlength=4 placeholder="เบอร์โทร 4 หลักสุดท้าย" required>
                     </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-space float-right" id="loginButton" >Log in</button> 
                     </div>
-                    <div class="col-md-6 mb-3">
-                    <label for="r1LastName">นามสกุล</label>
-                    <input type="text" class="form-control" id="r1LastName" name="r1LastName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกนามสกุลนักวิ่ง
-                    </div>
-                    </div>
-                </div>
-                <!-- RUNNER 2 -->
-                <h4 class="mb-3">นักวิ่งคนที่ 2 <span class="text-muted" id="user2Status"></span></h4>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                    <label for="r2FirsttName">ชื่อ</label>
-                    <input type="text" class="form-control" id="r2FirstName" name="r2FirstName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกชื่อนักวิ่ง
-                    </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                    <label for="r2LastName">นามสกุล</label>
-                    <input type="text" class="form-control" id="r2LastName" name="r2LastName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกนามสกุลนักวิ่ง
-                    </div>
-                    </div>
-                </div>
-                <!-- RUNNER 3 -->
-                <h4 class="mb-3">นักวิ่งคนที่ 3 <span class="text-muted" id="user3Status"></span></h4>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                    <label for="r3FirsttName">ชื่อ</label>
-                    <input type="text" class="form-control" id="r3FirstName" name="r3FirstName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกชื่อนักวิ่ง
-                    </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                    <label for="r3LastName">นามสกุล</label>
-                    <input type="text" class="form-control" id="r3LastName" name="r3LastName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกนามสกุลนักวิ่ง
-                    </div>
-                    </div>
-                </div>
-                <!-- RUNNER 4 -->
-                <h4 class="mb-3">นักวิ่งคนที่ 4 <span class="text-muted" id="user4Status"></span></h4>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                    <label for="r4FirsttName">ชื่อ</label>
-                    <input type="text" class="form-control" id="r4FirstName" name="r4FirstName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกชื่อนักวิ่ง
-                    </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                    <label for="r4LastName">นามสกุล</label>
-                    <input type="text" class="form-control" id="r4LastName" name="r4LastName" placeholder="" value="" required="">
-                    <div class="invalid-feedback">
-                        กรุณากรอกนามสกุลนักวิ่ง
-                    </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <h4>
-                        <span id="checkResult"></span>
-                    </h4>
-                </div>
-
-                <button type="reset" class="btn btn-danger btn-space float-right" >รีเซต</button>
-                <button type="submit" class="btn btn-secondary btn-space float-right" id="submitButton" disabled>สมัคร</button>
-                <button type="button" class="btn btn-info btn-space float-right" id="checkButton" >ตรวจสอบชื่อ</button>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function(){
-        var updateStatus = function(teamStatus, user1Status, user2Status, user3Status, user4Status){
-            $("#teamStatus").text(teamStatus);
-            $("#user1Status").text(user1Status);
-            $("#user2Status").text(user2Status);
-            $("#user3Status").text(user3Status);
-            $("#user4Status").text(user4Status);
-
-            if( teamStatus === "Ok" ){
-                $("#teamStatus").attr("class","text-success");
-            }else{
-                $("#teamStatus").attr("class","text-danger");
-            }
-            if( user1Status === "Ok" ){
-                $("#user1Status").attr("class","text-success");
-            }else{
-                $("#user1Status").attr("class","text-danger");
-            }
-            if( user2Status === "Ok" ){
-                $("#user2Status").attr("class","text-success");
-            }else{
-                $("#user2Status").attr("class","text-danger");
-            }
-            if( user3Status === "Ok" ){
-                $("#user3Status").attr("class","text-success");
-            }else{
-                $("#user3Status").attr("class","text-danger");
-            }
-            if( user4Status === "Ok" ){
-                $("#user4Status").attr("class","text-success");
-            }else{
-                $("#user4Status").attr("class","text-danger");
-            }
-        };
-
-        $("input").change(function(){
-            // If any input is changed, disable the submit button.
-            $(':input[type="submit"]').prop('disabled', true);
-            $(':input[type="submit"]').removeClass('btn-primary');
-            $(':input[type="submit"]').addClass('btn-secondary');
-        })
-        $("#checkButton").click(function(){
-            var teamName = $("#teamName").val()
-            data = {
-                "teamName": teamName,
-                "user1": {
-                    "firstname" : $("#r1FirstName").val(),
-                    "lastname" : $("#r1LastName").val()
-                },
-                "user2": {
-                    "firstname" : $("#r2FirstName").val(),
-                    "lastname" : $("#r2LastName").val()
-                },
-                "user3": {
-                    "firstname" : $("#r3FirstName").val(),
-                    "lastname" : $("#r3LastName").val()
-                },
-                "user4": {
-                    "firstname" : $("#r4FirstName").val(),
-                    "lastname" : $("#r4LastName").val()
-                },
-            }
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json",
-                url: "api/check",
-                data: JSON.stringify(data),
-                success: function(res){
-                    if(res.success){
-                        // Enable submit button.
-                        $(':input[type="submit"]').prop('disabled', false);
-                        $(':input[type="submit"]').addClass('btn-primary');
-                        $(':input[type="submit"]').removeClass('btn-secondary');
-                        $("#checkResult").text("สามารสมัครทีมได้ กดที่ปุ่มสมัครเพื่อสมัคร Run4Team");
-                        $("#checkResult").attr("class","text-sucess");
-                        updateStatus(res.teamName,res.member1,res.member2,res.member3,res.member4)
-                    }else{
-                        alert(res.message || "พบข้อผิดพลาด กรุณาตรวจสอบข้อมูลชื่อทีมหรือนักวิ่งอีกครั้ง");
-                        $("#checkResult").text("พบข้อผิดพลาด กรุณาตรวจสอบข้อมูลชื่อทีมหรือนักวิ่งอีกครั้ง");
-                        $("#checkResult").attr("class","text-danger");
-                        updateStatus(res.teamName,res.member1,res.member2,res.member3,res.member4)
-                    }
-                },
-                error: function(err){
-                    alert("Cannot connect to server");
-                }
-            });
-        });
-    });
-</script>
 {% endblock %}

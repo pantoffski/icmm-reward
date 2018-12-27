@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, jsonify, g
 import json
 import os
 import sqlite3
-from teamspread import TeamSpread
 from datetime import datetime, timezone, timedelta
 from db import UserDB
 
