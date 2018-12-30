@@ -15,24 +15,103 @@
             <div class="col-lg-12">
                 <form id="login-form" action="complete" method="post" role="form" style="display: block;">
                     <div class="form-group">
-                        <label >ระยะที่สมัคร</label>
-                        <select autofocus class="form-control" id="category">
-                          <option value="5k">Fun Run 5K </option>
-                          <option selected value="10k">Mini Marathon 10K</option>
+                        <label>ระยะที่สมัคร</label>
+                        <select autofocus class="form-control" id="raceCategory">
+                            <option value="5K">Fun Run 5K </option>
+                            <option selected value="10K">Mini Marathon 10K</option>
                         </select>
-                      </div>
-                    <div class="form-group">
-                        <input type="text" name="bibNumber" id="bibNumber" tabindex="1" class="form-control" pattern="^[0-9]{4}$" minlength=4 maxlength=4 placeholder="เลขบิบ 4 หลัก" required>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" id="password" tabindex="2" class="form-control" minlength=4 maxlength=4 placeholder="เบอร์โทร 4 หลักสุดท้าย" required>
+                        <label>หมายเลขบิบ</label>
+                        <input type="text" name="bibNumber" id="bibNumber" tabindex="1" class="form-control" pattern="^[0-9]{4}$"
+                            minlength=4 maxlength=4 placeholder="เลขบิบ 4 หลัก" required>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-space float-right" id="loginButton" >Log in</button> 
+                        <label>หมายเลขโทรศัพท์</label>
+                        <input type="password" name="telNumber" id="telNumber" tabindex="2" class="form-control"
+                            minlength=4 maxlength=4 placeholder="เบอร์โทร 4 หลักสุดท้าย" required>
+                    </div>
+                    <div class="form-group">
+                        <!-- <button type="submit" class="btn btn-primary btn-space float-right" id="loginButton" >Log in</button>  -->
+                        <!-- Button trigger modal -->
+                        <button type="button" id="searchButton" class="btn btn-primary">
+                            Search
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Challenge Form Modal -->
+<div class="modal fade" id="challengeFormModal" tabindex="-1" role="dialog" aria-labelledby="challengeFormModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="challengeFormModalLabel">Challenge Form</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your challenge is "ลดน้ำหนัก 5 กก."
+                <br>
+                Did you finish it?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- e-Reward Modal -->
+<div class="modal fade" id="eRewardModal" tabindex="-1" role="dialog" aria-labelledby="eRewardModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eRewardModalLabel">e-Reward พร้อมแล้ว</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Your e-reward is here ....
+                <div class="row">
+                    <img src="http://www.icmm.run/wp-content/uploads/2018/10/cropped-logo-1-1.png" alt="e-reward" height="150"
+                        width="150" class="img-thumbnail">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#searchButton").click(function () {
+            console.log("search!");
+
+            var data = {
+                "bibNumber": $("#bibNumber").val(),
+                "telNumber": $("#telNumber").val(),
+                "raceCategory": $("#raceCategory").val()
+            };
+            console.log("Data: " + JSON.stringify(data));
+
+            var isChalCompleted = data.bibNumber.length > 0;
+            if (isChalCompleted) {
+                // User completed the challenge
+                $("#eRewardModal").modal("show");
+            } else {
+                // Fill information in modal ...
+                $("#challengeFormModal").modal("show");
+            }
+        });
+    });
+</script>
 {% endblock %}
