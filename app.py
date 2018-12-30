@@ -23,15 +23,16 @@ def get_db():
         with app.app_context():
             db = get_db()
     """
-    db = getattr(g, "_database", None)
-    if db is None:
+    if 'db' not in g:
         UserDB.connect(config["db"]["path"])
-        db = UserDB
-    return db
+        g.db = UserDB
+    return g.db
 
 @app.teardown_appcontext
 def close_connection(exception):
-    UserDB.close()
+    db = g.pop('db', None)
+    if db is not None:
+        db.close()
 
 @app.route("/static/<path:path>")
 def send_js(path):
