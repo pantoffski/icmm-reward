@@ -47,9 +47,14 @@ def send_js(path):
 def index_get():
     team_list_link = config["template"]["teamListLink"]
     base_url = config["template"]["baseUrl"]
+    base_challenge_cert_url = config["template"]["baseChallengeCertUrl"]
+    base_e_reward1_url = config["template"]["baseEReward1Url"]
+    base_e_reward2_url = config["template"]["baseEReward2Url"]
     return render_template("index.html", 
-        teamListLink=team_list_link,
-        baseUrl=base_url)
+        baseUrl=base_url,
+        baseChallengeCertUrl=base_challenge_cert_url,
+        baseEReward1Url=base_e_reward1_url,
+        baseEReward2Url=base_e_reward2_url)
 
 def check_user(user, phoneNumber):
     if user == None:
