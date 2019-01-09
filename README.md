@@ -22,7 +22,7 @@ ex. /api/runners/1002?pin=9943
 
 **Get index page**
 
-PUT /api/runners/:bibNumber
+PUT /api/runners/:bibNumber?pin=Tel4Digit
 
 Data: {
     pin: Tel4Digit

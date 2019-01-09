@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, render_template, request, jsonify, g
+from flask import Flask, render_template, request, jsonify, g, abort
 import json
 import os
 import sqlite3
@@ -16,9 +16,9 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 config = None
 
-def create_json_response(success, data={}):
-    statusCode = 0 if success == True else -1
-    resp = {"statusCode": statusCode, "data": data}
+def create_json_response(data=None, statusCode=0, status=""):
+    status = "Success" if statusCode == 0 else status
+    resp = {"statusCode": statusCode, "status": status, "data": data}
     return jsonify(data)
 
 def get_db():
@@ -51,41 +51,37 @@ def index_get():
         teamListLink=team_list_link,
         baseUrl=base_url)
 
-def check_user(user, phoneNumber, raceCategory):
+def check_user(user, phoneNumber):
     if user == None:
         # Not found
         return False
     assert(user["phoneNumber"][0:1] == "x" and len(user["phoneNumber"]) == 5)
-    if not (user["raceCategory"] == raceCategory and user["phoneNumber"][1:] == phoneNumber):
+    if not (user["phoneNumber"][1:] == phoneNumber):
         # Not found
         return False
     return True
 
-@app.route("/runners", methods=["POST"])
+@app.route("/runners/<string:bibNumber>", methods=["GET"])
 def get_user():
-    bibNumber = request.form.get("bibNumber")
-    phoneNumber = request.form.get("phoneNumber")
-    raceCategory = request.form.get("raceCategory")
+    phoneNumber = request.form.get("pin")
     if len(phoneNumber) != 4:
-        return create_json_response(success=False) 
+        return create_json_response(status=-1, statusCode="Runner not found")
 
     with app.app_context():
         db = get_db()
         data = db.getUser(bibNumber)
-        if check_user(data, phoneNumber, raceCategory) == False:
-            return create_json_response(success=False)
-        return create_json_response(success=True, data=data)
+        if check_user(data, phoneNumber) == False:
+            return create_json_response(status=-1, statusCode="Runner not found")
+        return jsonify(data)
 
-@app.route("/submitChallenge")
+@app.route("/runners/<string:bibNumber>", methods=["PUT"])
 def submit_challenge():
-    bibNumber = request.form.get("bibNumber")
-    phoneNumber = request.form.get("phoneNumber")
-    raceCategory = request.form.get("raceCategory")
+    phoneNumber = request.form.get("pin")
     with app.app_context():
         db = get_db()
         data = db.getUser(bibNumber)
-        if check_user(data, phoneNumber, raceCategory) == False:
-            return create_json_response(success=False)
+        if check_user(data, phoneNumber) == False:
+            return create_json_response(status=-1, statusCode="Runner not found")
 
         # Generate URL and Certificate
         data["eRewardUrl"] = eRewardUrl
@@ -93,9 +89,40 @@ def submit_challenge():
         # Save URL to database
         ret = db.setERewardUrl(bibNumber, eRewardUrl)
         if ret != True:
-            return create_json_response(success=False)
+            return create_json_response(status=-2, statusCode="Could not retrieve EReward URL")
 
-        return create_json_response(success=True, data=data)
+        return create_json_response(success=0, data=data)
+
+@app.route("/img/challengeCert/:bibNumber", methods=["GET"])
+def get_cert_img():
+    phoneNumber = request.form.get("pin")
+    with app.app_context():
+        db = get_db()
+        data = db.getUser(bibNumber)
+        if check_user(data, phoneNumber) == False:
+            return create_json_response(status=-1, statusCode="Runner not found")
+
+        # Generate URL and Certificate
+        data["eRewardUrl"] = eRewardUrl
+
+        # Save URL to database
+        ret = db.setERewardUrl(bibNumber, eRewardUrl)
+        if ret != True:
+            return create_json_response(status=-2, statusCode="Could not retrieve EReward URL")
+
+        return create_json_response(success=0, data=data)
+
+@app.route("/img/eReward/:templateId/:bibNumber", methods=["GET"])
+def get_ereward_img():
+    phoneNumber = request.form.get("pin")
+    with app.app_context():
+        db = get_db()
+        data = db.getUser(bibNumber)
+        if check_user(data, phoneNumber) == False:
+            return create_json_response(status=-1, statusCode="Runner not found")
+
+        # Return eReward image here
+        return 0
 
 def load_json_config(config_path):
     config = None
