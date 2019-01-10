@@ -1,2 +1,4 @@
 flask>=0.13.2
 pytest>=3.10.0
+xlrd
+pandas

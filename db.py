@@ -1,5 +1,4 @@
 import sqlite3
-from constant import ResMessage
 
 class UserDB:
     """Singleton style database class"""
@@ -24,20 +23,21 @@ class UserDB:
         c.execute("""CREATE TABLE IF NOT EXISTS users (
                 firstName TEXT,
                 lastName TEXT,
+                bibName TEXT,
                 challenge TEXT,
                 raceCategory TEXT,
                 telNumber TEXT,
                 bibNumber TEXT,
-                PRIMARY KEY ('firstname', 'lastname')
+                PRIMARY KEY (bibNumber)
             )""")
         cls.DB_CONN.commit()
 
     @classmethod
-    def insertUser(cls, firstName, lastName, challenge, raceCategory, telNumber, bibNumber):
+    def insertUser(cls, firstName, lastName, bibName, challenge, raceCategory, telNumber, bibNumber):
         # To be implemented
-        user = [firstName, lastName, challenge, raceCategory, telNumber, bibNumber]
+        user = [firstName, lastName, bibName, challenge, raceCategory, telNumber, bibNumber]
         c = cls.DB_CONN.cursor()
-        c.execute("INSERT INTO users VALUES (?,?,?,?,?,?)", user)
+        c.execute("INSERT INTO users VALUES (?,?,?,?,?,?,?)", user)
         cls.DB_CONN.commit()
 
     @classmethod
