@@ -38,9 +38,10 @@ def get_db():
 
 @app.teardown_appcontext
 def close_connection(exception):
-    db = g.pop('db', None)
-    if db is not None:
-        db.close()
+    UserDB.close()
+    # db = g.pop('db', None)
+    # if db is not None:
+    #     db.close()
 
 @app.route("/static/<path:path>")
 def send_js(path):
@@ -91,7 +92,7 @@ def get_cert_img(bibNumber):
         if check_user(data, telNumber) == False:
             abort(404)
 
-        file_name = img_dir + "cert-%s" % (bibNumber)
+        file_name = img_dir + "/cert-%s.png" % (bibNumber)
         if not os.path.isfile(file_name):
             abort(404)
 
@@ -106,7 +107,7 @@ def get_ereward_img(templateId, bibNumber):
         if check_user(data, telNumber) == False:
             abort(404)
 
-        file_name = img_dir + "eReward-%s-%s" % (templateId,bibNumber)
+        file_name = img_dir + "/eReward-%s-%s.png" % (templateId,bibNumber)
         if not os.path.isfile(file_name):
             abort(404)
 

@@ -10,8 +10,8 @@
     "template":{
         "teamListLink" : "https://www.icmm.run",
         "baseUrl" : null,
-        "baseChallengeCertUrl": "https://icmm.run/e-reward/cert/",
-        "baseEReward1Url": "https://icmm.run/e-reward/coupon/1/",
-        "baseEReward2Url" : "https://icmm.run/e-reward/coupon/2/"
+        "baseChallengeCertUrl": "http://0.0.0.0:1234/img/challengeCert/",
+        "baseEReward1Url": "http://0.0.0.0:1234/img/eReward/1/",
+        "baseEReward2Url" : "http://0.0.0.0:1234/img/eReward/2/"
     }
 }
