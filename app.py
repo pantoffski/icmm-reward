@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from flask import Flask, render_template, request, jsonify, g, abort
+from flask import Flask, render_template, request, jsonify, g, abort, send_file
 import json
 import os
 import sqlite3
@@ -13,6 +13,9 @@ template_dir = os.path.abspath("./views")
 app = Flask(__name__,  template_folder=template_dir, static_url_path="/static")
 # Auto reload if a template file is changed
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+img_dir = os.path.abspath("./images")
+img_type = "png"
 
 config = None
 
@@ -79,25 +82,6 @@ def get_user():
             return create_json_response(status=-1, statusCode="Runner not found")
         return jsonify(data)
 
-@app.route("/runners/<string:bibNumber>", methods=["PUT"])
-def submit_challenge():
-    phoneNumber = request.form.get("pin")
-    with app.app_context():
-        db = get_db()
-        data = db.getUser(bibNumber)
-        if check_user(data, phoneNumber) == False:
-            return create_json_response(status=-1, statusCode="Runner not found")
-
-        # Generate URL and Certificate
-        data["eRewardUrl"] = eRewardUrl
-
-        # Save URL to database
-        ret = db.setERewardUrl(bibNumber, eRewardUrl)
-        if ret != True:
-            return create_json_response(status=-2, statusCode="Could not retrieve EReward URL")
-
-        return create_json_response(success=0, data=data)
-
 @app.route("/img/challengeCert/:bibNumber", methods=["GET"])
 def get_cert_img():
     phoneNumber = request.form.get("pin")
@@ -105,17 +89,13 @@ def get_cert_img():
         db = get_db()
         data = db.getUser(bibNumber)
         if check_user(data, phoneNumber) == False:
-            return create_json_response(status=-1, statusCode="Runner not found")
+            abort(404)
 
-        # Generate URL and Certificate
-        data["eRewardUrl"] = eRewardUrl
+        file_name = img_dir + "cert-%s" % (bibNumber)
+        if not os.path.isfile(file_name):
+            abort(404)
 
-        # Save URL to database
-        ret = db.setERewardUrl(bibNumber, eRewardUrl)
-        if ret != True:
-            return create_json_response(status=-2, statusCode="Could not retrieve EReward URL")
-
-        return create_json_response(success=0, data=data)
+        return send_file(file_name, mimetype='image/%s' % img_type)
 
 @app.route("/img/eReward/:templateId/:bibNumber", methods=["GET"])
 def get_ereward_img():
@@ -124,10 +104,13 @@ def get_ereward_img():
         db = get_db()
         data = db.getUser(bibNumber)
         if check_user(data, phoneNumber) == False:
-            return create_json_response(status=-1, statusCode="Runner not found")
+            abort(404)
 
-        # Return eReward image here
-        return 0
+        file_name = img_dir + "eReward-%s-%s" % (templateId,bibNumber)
+        if not os.path.isfile(file_name):
+            abort(404)
+
+        return send_file(file_name, mimetype='image/%s' % img_type)
 
 def load_json_config(config_path):
     config = None

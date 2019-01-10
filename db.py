@@ -1,20 +1,6 @@
 import sqlite3
 from constant import ResMessage
 
-def setMsgData(data, index, msg):
-    if index == 0:
-        key = "member1"
-    elif index == 1:
-        key = "member2"
-    elif index == 2:
-        key = "member3"
-    elif index == 3:
-        key = "member4"
-    else:
-        assert(0)
-    data[key] = msg
-    return data
-
 class UserDB:
     """Singleton style database class"""
     DB_CONN = None
@@ -36,21 +22,22 @@ class UserDB:
         print("Initialize database schema")
         c = cls.DB_CONN.cursor()
         c.execute("""CREATE TABLE IF NOT EXISTS users (
-                firstname TEXT,
-                lastname TEXT,
-                teamId INTEGER DEFAULT NULL,
-                first10k INTEGER,
-                PRIMARY KEY ('firstname', 'lastname'),
-                FOREIGN KEY(teamId) REFERENCES teams(id)
+                firstName TEXT,
+                lastName TEXT,
+                challenge TEXT,
+                raceCategory TEXT,
+                telNumber TEXT,
+                bibNumber TEXT,
+                PRIMARY KEY ('firstname', 'lastname')
             )""")
         cls.DB_CONN.commit()
 
     @classmethod
-    def insertUser(cls, teamName):
+    def insertUser(cls, firstName, lastName, challenge, raceCategory, telNumber, bibNumber):
         # To be implemented
-        user = [firstname, lastname, teamId, first10k]
+        user = [firstName, lastName, challenge, raceCategory, telNumber, bibNumber]
         c = cls.DB_CONN.cursor()
-        c.execute("INSERT INTO users VALUES (?,?,?,?)", user)
+        c.execute("INSERT INTO users VALUES (?,?,?,?,?,?)", user)
         cls.DB_CONN.commit()
 
     @classmethod
@@ -58,7 +45,7 @@ class UserDB:
         # To be implemented
         c = cls.DB_CONN.cursor()
         values = (bibNumber,)
-        c.execute("SELECT firstName, lastName, challenge, raceCategory, telNumber, bibNumber, eRewardUrl FROM users WHERE (bibNumber = ?)", values)
+        c.execute("SELECT firstName, lastName, challenge, raceCategory, telNumber, bibNumber FROM users WHERE (bibNumber = ?)", values)
         row = c.fetchone()
         if row == None:
             return None
@@ -67,17 +54,5 @@ class UserDB:
                 "challenge": row[2],
                 "raceCategory": row[3],
                 "telNumber": row[4],
-                "bibNumber": row[5],
-                "eRewardUrl": row[6]}
+                "bibNumber": row[5]}
         return data
-
-    @classmethod
-    def setERewardUrl(cls, bibNumber, eRewardUrl):
-        try:
-            c = cls.DB_CONN.cursor()
-            values = (bibNumber, eRewardUrl)
-            c.execute("UPDATE users WHERE bibNumber=? VALUES eRewardUrl=?", values)
-            cls.DB_CONN.commit()
-            return True
-        except:
-            return False
