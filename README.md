@@ -12,7 +12,7 @@ GET /
 
 Return: index.html
 
-**Get index page**
+**Get runners info, Certificate and E-Coupon**
 
 GET /api/runners/:bibNumber?pin=Tel4Digit
 
@@ -20,20 +20,7 @@ Return: Runner model
 
 ex. /api/runners/1002?pin=9943
 
-**Get index page**
-
-PUT /api/runners/:bibNumber?pin=Tel4Digit
-
-Data: {
-    pin: Tel4Digit
-    isChallengeDone: true
-}  
-
-Description: 'Runner confirm that his/her challenge is completed.'
-
-Return: {sucess:true} if success
-
-**Get index page**
+**Get certificate image**
 
 GET /img/challengeCert/:bibNumber?pin=Tel4Digit
 

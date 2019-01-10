@@ -21,8 +21,8 @@ config = None
 
 def create_json_response(data=None, statusCode=0, status=""):
     status = "Success" if statusCode == 0 else status
-    resp = {"statusCode": statusCode, "status": status, "data": data}
-    return jsonify(data)
+    resp = {"statuscode": statusCode, "status": status, "data": data}
+    return jsonify(resp)
 
 def get_db():
     """Function for get db inside Flask app.
@@ -59,36 +59,36 @@ def index_get():
         baseEReward1Url=base_e_reward1_url,
         baseEReward2Url=base_e_reward2_url)
 
-def check_user(user, phoneNumber):
-    if user == None:
+def check_user(user, telNumber):
+    if user == None or telNumber == None:
         # Not found
         return False
-    assert(user["phoneNumber"][0:1] == "x" and len(user["phoneNumber"]) == 5)
-    if not (user["phoneNumber"][1:] == phoneNumber):
+    assert(user["telNumber"][0:1] == "x" and len(user["telNumber"]) == 5)
+    if not (user["telNumber"][1:] == telNumber):
         # Not found
         return False
     return True
 
-@app.route("/runners/<string:bibNumber>", methods=["GET"])
-def get_user():
-    phoneNumber = request.form.get("pin")
-    if len(phoneNumber) != 4:
+@app.route("/api/runners/<string:bibNumber>", methods=["GET"])
+def get_user(bibNumber):
+    telNumber = request.args.get("pin")
+    if telNumber == None or len(telNumber) != 4:
         return create_json_response(status=-1, statusCode="Runner not found")
 
     with app.app_context():
         db = get_db()
         data = db.getUser(bibNumber)
-        if check_user(data, phoneNumber) == False:
+        if check_user(data, telNumber) == False:
             return create_json_response(status=-1, statusCode="Runner not found")
-        return jsonify(data)
+        return create_json_response(status=0, data=data)
 
-@app.route("/img/challengeCert/:bibNumber", methods=["GET"])
-def get_cert_img():
-    phoneNumber = request.form.get("pin")
+@app.route("/img/challengeCert/<string:bibNumber>", methods=["GET"])
+def get_cert_img(bibNumber):
+    telNumber = request.args.get("pin")
     with app.app_context():
         db = get_db()
         data = db.getUser(bibNumber)
-        if check_user(data, phoneNumber) == False:
+        if check_user(data, telNumber) == False:
             abort(404)
 
         file_name = img_dir + "cert-%s" % (bibNumber)
@@ -97,13 +97,13 @@ def get_cert_img():
 
         return send_file(file_name, mimetype='image/%s' % img_type)
 
-@app.route("/img/eReward/:templateId/:bibNumber", methods=["GET"])
-def get_ereward_img():
-    phoneNumber = request.form.get("pin")
+@app.route("/img/eReward/<string:templateId>/<string:bibNumber>", methods=["GET"])
+def get_ereward_img(templateId, bibNumber):
+    telNumber = request.args.get("pin")
     with app.app_context():
         db = get_db()
         data = db.getUser(bibNumber)
-        if check_user(data, phoneNumber) == False:
+        if check_user(data, telNumber) == False:
             abort(404)
 
         file_name = img_dir + "eReward-%s-%s" % (templateId,bibNumber)
