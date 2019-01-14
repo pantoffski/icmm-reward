@@ -13,7 +13,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-lg-12">
-                <form id="login-form" role="form" style="display: block;">
+                <form id="search-form" role="form" style="display: block;">
                     <!-- <div class="form-group">
                         <label>ระยะที่สมัคร</label>
                         <select autofocus class="form-control" id="raceCategory">
@@ -55,16 +55,13 @@
             $("#eReward1Image").attr("src", eReward1Url);    
             $("#eReward2Image").attr("src", eReward2Url);    
         };
+
         $("#searchButton").click(function () {
             var bibNumber = $("#bibNumber").val();
             var tel4Digit = $("#telNumber").val();
 
             if (bibNumber.length == 0){
                 alert("กรุณากรอกหมายเลขบิบ");
-                return;
-            }
-            if (tel4Digit.length != 4){
-                alert("กรุณากรอกเบอร์โทรให้ครบ 4 หลัก");
                 return;
             }
 
@@ -76,12 +73,55 @@
                 url: url,
                 success: function(data){
                     console.log(data)
-                    if(data.statuscode == 0){
+                    if(data.statuscode == 0 && data.data.feedback !== ""){
+                        // Runner have submitted form.
                         updateRewardSrc(bibNumber, tel4Digit);
                         $("#eRewardModal").modal("show");
                         $("#errorModal").modal("hide");
+                    }else if(data.statuscode == 0 && !data.data.feedback){
+                        // Runner have not submitted form yet.
+                        $("#feedbackModal").modal("show");
+                        $("#errorModal").modal("hide");
                     }else{
                         $("#errorModal").modal("show");
+                        $("#feedbackModal").modal("hide");
+                        $("#eRewardModal").modal("hide");
+                    }
+                },
+                error: function(err){
+                    alert("Cannot connect to server");
+                }
+            });
+        });
+        $("#submitFeedbackButton").click(function () {
+            var bibNumber = $("#bibNumber").val();
+            var tel4Digit = $("#telNumber").val();
+            var feedback = $("#feedback").val();
+            
+            if (feedback.length == 0){
+                alert("กรุณากรอกความเห็น");
+                return;
+            }
+
+            console.log("Update feedback data: bibNumber=" + bibNumber + " pin=" + tel4Digit + " feedback=" + feedback);
+            var url = "api/runners/" + bibNumber + "/feedback" ;
+            var data = {
+                "pin" : tel4Digit,
+                "feedback" : feedback
+            }
+            $.ajax({
+                type: "PUT",
+                dataType: "json",
+                url: url,
+                data: JSON.stringify(data),
+                success: function(data){
+                    if(data.statuscode == 0){
+                        updateRewardSrc(bibNumber, tel4Digit);
+                        $("#eRewardModal").modal("show");
+                        $("#feedbackModal").modal("hide");
+                        $("#errorModal").modal("hide");
+                    }else{
+                        alert("พบข้อผิดพลาดกรุณาลองใหม่อีกครั้ง");
                         $("#eRewardModal").modal("hide");
                     }
                 },
