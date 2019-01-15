@@ -8,7 +8,7 @@
         <br>
         <h5 class="display-6"><u>วิธีกดรับ certificate</u></h5>
         <p>1. กรอกเลขหมายบิบ เช่น จากป้ายบิบ E25-6800 หมายเลขบิบคือ 6800</p>
-        <p>2. กรอกเลข 4 หลักสุดท้ายของเบอร์โทรศัพท์ <span class="text-danger">**หากไม่เคยกรอกไว้ตอนลงทะเบียวิ่งให้เว้นว่างไว้**</span></p>
+        <p>2. กรอกเลข 4 หลักสุดท้ายของเบอร์โทรศัพท์ <span class="text-danger">**หากไม่เคยกรอกไว้ตอนลงทะเบียนวิ่งให้เว้นว่างไว้**</span></p>
         <p>3. กดปุ่มค้นหา หากข้อมูลถูกต้อง ระบบแสดงฟอร์มกรอกผลลัพธ์ของ Challenge</p>
         <p>4. กรอกผลลัพธ์แล้วกดปุ่มถัดไปเพื่อกรอกความเห็นสำหรับงานวิ่ง ICMM2019</p>
         <p>5. กดส่งความเห็นแล้วระบบจะแสดง certificate และของขวัญสุดพิเศษให้</p>
@@ -101,8 +101,8 @@
                 return;
             }
 
-            console.log("Update runner data: bibNumber=" + bibNumber + " pin=" + tel4Digit +
-                " challengeResult=" + challengeResult + " feedback=" + feedback);
+            // console.log("Update runner data: bibNumber=" + bibNumber + " pin=" + tel4Digit +
+            //     " challengeResult=" + challengeResult + " feedback=" + feedback);
             var url = "api/runners/" + bibNumber + "/feedback";
             var data = {
                 "pin": tel4Digit,
