@@ -40,7 +40,6 @@ class ICMMRunner:
 
     @classmethod
     def from_doc(cls, doc):
-        print(doc)
         bib_number = doc.get('bibNumber', None)
         firstname = doc.get('firstname', None)
         lastname = doc.get('lastname', None)
@@ -50,8 +49,6 @@ class ICMMRunner:
         full_bib = doc.get('fullBib', None)
         name_on_bib = doc.get('nameOnBib', None)
         feedback = doc.get('feedback', None)
-
-        print(tel_4_digit)
         return cls(bib_number, 
             firstname=firstname,  
             lastname=lastname, 

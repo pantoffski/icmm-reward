@@ -98,7 +98,6 @@ def get_user(bibNumber):
 
 @app.route("/api/runners/<string:bibNumber>/feedback", methods=["PUT"])
 def feedback_user(bibNumber):
-    print('feedback', bibNumber)
     req = request.get_json(silent=True, force=True)
     logger.info('receive feedback for bib={}: {}', bibNumber, req)
     try:
