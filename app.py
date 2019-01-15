@@ -102,6 +102,7 @@ def feedback_user(bibNumber):
     logger.info('receive feedback for bib={}: {}', bibNumber, req)
     try:
         feedback = req.get('feedback')
+        challenge_result = req.get('challengeResult')
         telNumber = req.get('pin')
     except AttributeError:
         return create_json_response(statusCode=-1, status="JSON error")
@@ -112,7 +113,7 @@ def feedback_user(bibNumber):
         if check_user(data, telNumber) == False:
             return create_json_response(statusCode=-1, status="Runner not found")
 
-        db.update_one_runner_feedback({'bibNumber':int(bibNumber)}, feedback)
+        db.update_one_runner_feedback({'bibNumber':int(bibNumber)}, feedback, challenge_result)
         data.feedback = feedback    
         return create_json_response(statusCode=0, data=data.to_doc())
 

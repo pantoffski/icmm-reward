@@ -62,6 +62,7 @@ class RunnerDB():
         return cls.COLLECTION.update_one(query, {'$set': runner.to_doc()}, upsert=upsert)
 
     @classmethod
-    def update_one_runner_feedback(cls, query, feedback, upsert=False):
+    def update_one_runner_feedback(cls, query, feedback, challenge_result, upsert=False):
         logger.info('Update runner\'s feedback: {}', str(feedback))
-        return cls.COLLECTION.update_one(query, {'$set': {'feedback': feedback}}, upsert=upsert)
+        set_query = {'$set': {'feedback': feedback, 'challengeResult': challenge_result}}
+        return cls.COLLECTION.update_one(query, set_query, upsert=upsert)

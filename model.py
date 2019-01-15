@@ -20,6 +20,8 @@ class ICMMRunner:
         self.full_bib = kwargs.get('full_bib', None)
         self.name_on_bib = kwargs.get('name_on_bib', None)
         self.feedback = kwargs.get('feedback', None)
+        self.challenge = kwargs.get('challenge', None)
+        self.challenge_result = kwargs.get('challenge_result', None)
 
     def to_doc(self):
         doc = {
@@ -31,7 +33,9 @@ class ICMMRunner:
             'tel4Digit': self.tel_4_digit,
             'fullBib': self.full_bib,
             'nameOnBib': self.name_on_bib,
-            'feedback': self.feedback
+            'feedback': self.feedback,
+            'challenge': self.challenge,
+            'challengeResult': self.challenge_result
         }
         return doc
 
@@ -49,6 +53,8 @@ class ICMMRunner:
         full_bib = doc.get('fullBib', None)
         name_on_bib = doc.get('nameOnBib', None)
         feedback = doc.get('feedback', None)
+        challenge = doc.get('challenge', None)
+        challenge_result = doc.get('challengeResult', None)
         return cls(bib_number, 
             firstname=firstname,  
             lastname=lastname, 
@@ -57,5 +63,7 @@ class ICMMRunner:
             race=race,
             full_bib=full_bib,
             name_on_bib=name_on_bib,
-            feedback=feedback
+            feedback=feedback,
+            challenge=challenge,
+            challenge_result=challenge_result
             )
